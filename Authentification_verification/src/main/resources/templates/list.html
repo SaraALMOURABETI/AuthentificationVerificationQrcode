@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Form</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <style>
+        body {
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        .form-details {
+            margin-top: 20px;
+        }
+        .form-details p {
+            margin-bottom: 10px;
+        }
+        .success-message {
+            color: green;
+        }
+        #toggle-form {
+            text-align: center;
+            display: block;
+            margin-top: 10px;
+        }
+        .form-images img {
+            width: 200px;
+            height: auto;
+            margin-bottom: 10px;
+        }
+        .social-media-icons {
+            margin-top: 5px;
+        }
+        .social-media-icons a {
+            margin-right: 5px;
+        }
+        .edit-delete-links {
+            margin-top: 10px;
+        }
+        .export-form {
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<h1>Détails du formulaire d'inscription</h1>
+
+<div class="success-message" th:if="${successMessage}">
+    <p th:text="${successMessage}"></p>
+</div>
+
+<!--<a class="btn btn-primary" th:href="@{/inscription-forms/submit}">Voir le formulaire</a>-->
+
+<div class="form-details">
+    <p>ProfilPicture:</p>
+    <div class="form-images">
+        <img th:src="@{${inscriptionForm.profilePic}}" alt="Profile Picture">
+    </div>
+
+    <p>backgroundPic:</p>
+    <div class="form-images">
+        <img th:src="@{${inscriptionForm.backgroundPic}}" alt="Background Picture">
+    </div>
+
+    <p>Nom : <span th:text="${inscriptionForm.Nom}"></span></p>
+    <p>Prénom : <span th:text="${inscriptionForm.Prenom}"></span></p>
+
+    <p>
+        <i class="fas fa-phone-alt"></i>
+        <span>Phone:</span>
+        <a href="tel:${inscriptionForm.numero}">
+            <span th:text="${inscriptionForm.numero}"></span>
+        </a>
+    </p>
+
+    <p>
+        <i class="fas fa-phone-alt"></i>
+        <span>nomSociete :</span>
+        <a href="tel:${inscriptionForm.phone}">
+            <span th:text="${inscriptionForm.phone}"></span>
+        </a>
+    </p>
+
+    <p>poste : <span th:text="${inscriptionForm.poste}"></span></p>
+
+    <p>
+        <i class="fas fa-globe"></i>
+        <span>Website:</span>
+        <a th:href="${inscriptionForm.siteweb}" target="_blank" th:text="${inscriptionForm.siteweb}"></a>
+    </p>
+
+    <p>
+        linkedIn:
+        <a th:href="${inscriptionForm.linkedIn}" target="_blank">
+            <i class="fab fa-linkedin"></i>
+        </a>
+    </p>
+
+    <p>
+        Instagram personnel :
+        <a th:href="${inscriptionForm.instaCompany}" target="_blank">
+            <i class="fab fa-instagram"></i>
+        </a>
+    </p>
+    <p>
+        Instagram de la société:
+        <a th:href="${inscriptionForm.instagram}" target="_blank">
+            <i class="fab fa-instagram"></i>
+        </a>
+    </p>
+    <p>
+        Facebook de la société:
+        <a th:href="${inscriptionForm.facebookCompany}" target="_blank">
+            <i class="fab fa-facebook-square"></i>
+        </a>
+    </p>
+    <p>
+        linkedIn de la société:
+        <a th:href="${inscriptionForm.linkedInCompany}" target="_blank">
+            <i class="fab fa-linkedin"></i>
+        </a>
+    </p>
+
+    <p>genre : <span th:text="${inscriptionForm.genre}"></span></p>
+
+    <p>Gallery:</p>
+    <div class="form-images">
+        <img th:src="@{${inscriptionForm.gallery}}" alt="Gallery" multiple>
+    </div>
+
+    <div class="edit-delete-links">
+        <a th:href="@{/inscription-forms/{id}/edit(id=${inscriptionForm.id})}"><button type="submit" class="btn btn-primary">Edit</button></a>
+        <a th:href="@{/inscription-forms/{id}/delete(id=${inscriptionForm.id})}"
+           onclick="return confirm('Are you sure you want to delete this form?')"><button type="submit" class="btn btn-primary">Delete</button></a>
+
+    </div>
+</div>
+
+<form id="export-form" class="export-form" method="post" action="/export">
+    <input type="hidden" id="form-data" name="form-data" th:value="${inscriptionForm}" />
+    <button type="submit" class="btn btn-primary">Export as CSV</button>
+</form>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
+<script>
+    // Convert form data to CSV format
+    function convertToCSV(formData) {
+        const entries = Object.entries(formData);
+        const csv = entries.map(entry => `${entry[0]},${entry[1]}`).join('\n');
+        return csv;
+    }
+
+    // Handle form submission and CSV export
+    document.getElementById('export-form').addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        const formData = JSON.stringify($('#form-data').val());
+        const csvData = convertToCSV(formData);
+
+        const link = document.createElement('a');
+        link.href = 'data:text/csv;charset=utf-8,' + encodeURI(csvData);
+        link.target = '_blank';
+        link.download = 'form_data.csv';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    });
+</script>
+
+</body>
+</html>

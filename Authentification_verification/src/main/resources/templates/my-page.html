@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" th:href="@{/css/feuille.css}" />
+  <link rel="stylesheet" th:href="@{/css/formulaire.css}" />
+  <style th:inline="text">
+        /* Styling the Body element i.e. Color, Font, Alignment */
+        body {
+            background-color: teal;
+        }
+        /* Styling the Form (Color, Padding, Shadow) */
+        form {
+            background-color: #fff;
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 10px 20px;
+            box-shadow: 2px 5px 10px rgba(0, 0, 0, 0.5);
+        }
+    </style>
+</head>
+<body>
+<div class="corps">
+  <div class="formulaire" th:name="formulaire">
+    <div class="titre1"><div class="favorite styled">Adquest_Carte</div></div>
+    <form  method="POST" name="form1" th:action="@{/inscription-forms/create}" enctype="multipart/form-data" th:object="${inscriptionForm}">
+
+      <p class="titre">Photo de profil :</p>
+      <input type="file" name="profilePicFile" accept="image/*" required><br>
+      <p class="titre">Photo de background :</p>
+      <input type="file" name="backgroundPicFile" accept="image/*" required><br>
+
+
+      <div class="titre-input">
+        <p class="titre">Nom :</p>
+        <input type="text" name="Nom" class="form-control" th:oninput="change(this)" th:field="*{Nom}" required>
+      </div>
+
+      <div class="titre-input">
+        <p class="titre">Prénom :</p>
+        <input type="text" name="Prenom" class="form-control" th:oninput="change(this)" th:field="*{Prenom}" required>
+      </div>
+
+
+      <div class="input-nom-prenom">
+        <div class="titre-input1">
+          <p class="titre">Numéro de la société :</p>
+          <input type="tel" pattern="^[0-9]{10}" class="form-control" th:oninput="change(this)" name="Numero" th:field="*{Numero}" required >
+        </div>
+        <div class="titre-input2">
+          <p class="titre">Email :</p>
+          <input type="email" name="email" class="form-control" th:oninput="change(this)" placeholder="Ex:you@gmail.com" pattern="(^[a-z0-9]+)@([a-z0-9])+(\.)([a-z]{2,4})" th:field="*{email}" required>
+        </div>
+      </div>
+
+      <div class="titre-input">
+        <p class="titre">Nom de la société :</p>
+        <input type="text" name="NomSociete" class="form-control" th:oninput="change(this)" th:field="*{NomSociete}" required>
+      </div>
+
+      <div class="titre-input">
+        <p class="titre">Poste :</p>
+        <input type="text" name="Poste" class="form-control" th:field="*{Poste}" required>
+      </div>
+      <div class="titre-input imagedefond">
+
+
+        <p class="titre"><label for="siteweb">Lien vers site web :</label></p>
+        <input type="url" id="siteweb" name="siteweb" th:field="*{siteweb}">
+
+        <p class="titre"><label for="instagram">Lien vers Instagram personnel :</label></p>
+        <input type="url" id="instagram" name="instagram" th:field="*{instagram}">
+
+        <p class="titre"><label for="linkedIn">Lien vers LinkedIn personnel :</label></p>
+        <input type="url" id="linkedIn" name="linkedIn" th:field="*{linkedIn}">
+
+        <p class="titre"><label for="phone">Numéro de téléphone personnel :</label></p>
+        <input type="tel" id="phone" name="phone" th:field="*{phone}">
+
+        <p class="titre"><label for="instaCompany">Lien vers Page Instagram de la société :</label></p>
+        <input type="url" id="instaCompany" name="instaCompany" th:field="*{instaCompany}">
+
+        <p class="titre"><label for="facebookCompany">Lien vers Page Facebook de la société :</label></p>
+        <input type="url" id="facebookCompany" name="facebookCompany" th:field="*{facebookCompany}">
+
+        <p class="titre"><label for="linkedInCompany">Lien vers Page LinkedIn :</label></p>
+        <input type="url" id="linkedInCompany" name="linkedInCompany" th:field="*{linkedInCompany}">
+
+        <p class="titre">Gallery :</p>
+        <input type="file" name="galleryFile" accept="image/*" required><br>
+
+
+
+      </div>
+
+      <p class="titre">Genre:</p>
+      <div class="genre">
+        <label for="masculin" class="titre">Masculin</label>
+        <input type="radio" id="masculin" name="Genre" value="masculin" class="form-control" required>
+        <label for="feminin" class="titre">Feminin</label>
+        <input type="radio" id="feminin" name="Genre" value="feminin" class="form-control" required>
+
+        <button class="button1" type="submit" name="submit" >Enregistrer</button>
+      </div>
+
+    </form>
+  </div>
+
+  <div class="code_qr">
+    <img class="qrious">
+
+    <div class="information">
+      <p style="color:teal">Valeur:</p>
+      <p>Ici la valeur du code qr</p>
+
+    </div>
+
+  </div>
+</div>
+
+<script th:src="@{/js/qrious.js}"></script>
+<script th:src="@{/js/script.js}"></script>
+</body>
+</html>

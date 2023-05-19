@@ -1,0 +1,16 @@
+.corps{
+    display: flex;
+   
+}
+.formulaire{
+    margin: auto;
+    margin-right:20px;
+}
+.code_qr{
+font-size: 15px;
+margin-right: auto ;
+width: 250px;
+max-width: 600px;
+
+}
+
